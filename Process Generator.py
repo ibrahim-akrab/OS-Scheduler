@@ -17,8 +17,7 @@ def main(argv):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
-    print('Input file is :', inputfile)
-    print('Output file is :', outputfile)
+
 
     # read input file
     with open(inputfile) as input:
@@ -38,7 +37,6 @@ def main(argv):
     # prepare priority times
     priority = [str(np.abs(np.random.poisson(priority_dist))) for i in range(number_of_processes)]
 
-    print(arrival_time)
     # print output file
     with open(outputfile, "w") as output:
         output.write(str(number_of_processes)+"\n")
