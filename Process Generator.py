@@ -2,8 +2,8 @@ import numpy as np
 import sys, getopt
 
 def main(argv):
-    inputfile = ''
-    outputfile = ''
+    inputfile = 'input.txt'
+    outputfile = 'output.txt'
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
     except getopt.GetoptError:
