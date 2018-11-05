@@ -1,8 +1,12 @@
-from tkinter import Tk, Label, Button, BOTTOM, filedialog, OptionMenu, StringVar, Entry, messagebox
+from tkinter import Tk, Label, Button, BOTTOM, filedialog, OptionMenu, StringVar, Entry, messagebox, TOP, BOTH
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+from matplotlib.figure import Figure
 
+import numpy as np
 
 class Gui:
     def __init__(self, master):
+        self.test = False
         self.master = master
         self.time_quantum_label = None
         self.time_quantum = None
@@ -11,6 +15,9 @@ class Gui:
         self.algorithms = ["HPF", "FCFS", "RR", "SRTN"]
         self.current_algorithm = None
         self.input_file_name = ''
+        self.canvas = None
+        self.fig = Figure()
+        self.toolbar = None
         self.init_gui()
 
     def init_gui(self):
@@ -81,15 +88,41 @@ class Gui:
         # pass
 
     def run(self):
-        self.validate_for_run()
+        # self.validate_for_run()
         # TODO : start the scheduler
-        pass
+        # TODO : show output
+
+        # draw sample data
+
+        x = np.arange(1, 7, 0.4)
+        y0 = np.sin(x)
+        y = y0.copy() + 2.5
+        self.fig.add_subplot(111).step(x, y, label='pre (default)')
+
+        y -= 0.5
+        self.fig.add_subplot(111).step(x, y, where='mid', label='mid')
+
+        y -= 0.5
+        self.fig.add_subplot(111).step(x, y, where='post', label='post')
+
+        if self.canvas is not None:
+            self.canvas.get_tk_widget().pack_forget()
+        if self.toolbar is not None:
+            self.toolbar.pack_forget()
+        self.canvas = FigureCanvasTkAgg(self.fig, master=root)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, root)
+        self.toolbar.update()
+        self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
     def select_file(self):
         self.input_file_name = filedialog.askopenfilename(title="Select input file",
-                                       filetypes=(("text files", "*.txt"), ("all files", "*.*")))
+                                                          filetypes=(("all files", "*.*"), ("text files", "*.txt")))
 
     def on_value_change(self, event):
+        self.canvas.get_tk_widget().pack_forget()
+        self.toolbar.pack_forget()
         if self.current_algorithm.get() != self.algorithms[2]:
             self.time_quantum_label.pack_forget()
             self.time_quantum_textbox.pack_forget()
