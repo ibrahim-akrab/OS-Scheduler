@@ -1,6 +1,7 @@
 from tkinter import Tk, Label, Button, BOTTOM, filedialog, OptionMenu, StringVar, Entry, messagebox, TOP, BOTH
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.figure import Figure
+from Manager import Manager
 
 import numpy as np
 
@@ -83,27 +84,23 @@ class Gui:
                 raise ValueError("Context Switching time must be entered correctly!")
             if self.current_algorithm.get() == self.algorithms[2] and len(self.time_quantum) == 0:
                 raise ValueError("Time Quantum must be entered correctly!")
+            return True
         except Exception as error:
             messagebox.showerror("Error", repr(error))
+            return False
         # pass
 
     def run(self):
-        # self.validate_for_run()
-        # TODO : start the scheduler
-        # TODO : show output
+        if not self.validate_for_run():
+            return
 
-        # draw sample data
+        # valid input
+        manager = Manager(self.input_file_name, float(self.context_switching), self.current_algorithm.get())
+        time, processes = manager.loop()
 
-        x = np.arange(1, 7, 0.4)
-        y0 = np.sin(x)
-        y = y0.copy() + 2.5
-        self.fig.add_subplot(111).step(x, y, label='pre (default)')
-
-        y -= 0.5
-        self.fig.add_subplot(111).step(x, y, where='mid', label='mid')
-
-        y -= 0.5
-        self.fig.add_subplot(111).step(x, y, where='post', label='post')
+        if self.fig is not None:
+            self.fig.clear("all")
+        self.fig.add_subplot(111).step(time, processes, where='post')
 
         if self.canvas is not None:
             self.canvas.get_tk_widget().pack_forget()
@@ -118,7 +115,7 @@ class Gui:
 
     def select_file(self):
         self.input_file_name = filedialog.askopenfilename(title="Select input file",
-                                                          filetypes=(("all files", "*.*"), ("text files", "*.txt")))
+                                                          filetypes=(("text files", "*.txt"), ("all files", "*.*")))
 
     def on_value_change(self, event):
         if self.canvas is not None:
@@ -131,6 +128,7 @@ class Gui:
         else:
             self.time_quantum_label.pack()
             self.time_quantum_textbox.pack()
+
 
 
 root = Tk()

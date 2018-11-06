@@ -3,6 +3,7 @@ from Clock import Clock
 from operator import itemgetter, attrgetter
 from bisect import insort
 from enum import Enum
+from Logger import Logger
 
 
 class Scheduler:
@@ -11,8 +12,10 @@ class Scheduler:
         self.context_switching = context_switching
         self.state = None
         self.clock = None
+        self.logger = Logger()
         # the processes that are currently running or waiting in queue
         self.processes = []
+        self.running_process = None
 
     def process_arrived(self, process):
         pass
