@@ -1,5 +1,5 @@
 from Process import Process
-from operator import itemgetter, attrgetter
+from operator import attrgetter
 
 
 class ProcessManager:
@@ -10,8 +10,6 @@ class ProcessManager:
         self.scheduler = None
 
     def load_processes(self, inputfile):
-        # inputfile='output.txt'
-
         # read input file
         with open(inputfile) as input_:
             # get number of processes
@@ -28,7 +26,7 @@ class ProcessManager:
 
     def _add_process(self, process_number, arrival_time, burst_time, priority):
         self.processes.append(Process(process_number, arrival_time, burst_time, priority))
-        
+
     def attach_clock(self, clock):
         self.clock = clock
         self.clock.process_manager = self
@@ -43,8 +41,3 @@ class ProcessManager:
         if len(self.processes) is not 0:
             self.clock.notify_process_manager(self.processes[0].arrival_time)
 
-
-# process_manager = ProcessManager()
-# process_manager.load_processes('output.txt')
-# for process in process_manager.processes:
-#     print(process)
