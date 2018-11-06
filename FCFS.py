@@ -17,6 +17,7 @@ class FCFS(Scheduler):
             print(self.clock, "started context switching")
             self.clock.notify_scheduler(self.context_switching)
         elif self.state is SchedulerState.context_switching:
+            self.state = None
             print(self.clock, "finished context switching")
             if len(self.processes) is not 0:
                 self.run()

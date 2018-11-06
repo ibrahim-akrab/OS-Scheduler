@@ -15,7 +15,6 @@ class Scheduler:
         self.processes = []
 
     def process_arrived(self, process):
-        self.processes.append(process)
         pass
 
     def attach_clock(self, clock):
@@ -23,18 +22,9 @@ class Scheduler:
         self.clock.scheduler = self
 
     def notify(self):
-        if self.state is SchedulerState.running:
-            self.state = SchedulerState.context_switching
-            pass
-        else:
-            self.run()
-            self.state = SchedulerState.running
-            pass
+        pass
 
     def run(self):
-        process = self.processes.pop(0)
-        self.clock.notify_scheduler(process.burst_time)
-        process.run(process.burst_time)
         pass
 
 
