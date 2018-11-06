@@ -7,6 +7,7 @@ class SRTN(Scheduler):
     def process_arrived(self, process):
         # print(self.clock, "arrived", process)
         self.processes.append(process)
+        self.logger.arrived(process, self.clock, arriving=True)
         # check if it should interrupt the running process
         if self.running_process is not None:
             if process.burst_time < self.running_process.remaining_time(self.clock.time):
