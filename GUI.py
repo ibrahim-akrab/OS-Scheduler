@@ -111,7 +111,7 @@ class Gui:
             self.toolbar.pack_forget()
         self.canvas = FigureCanvasTkAgg(self.fig, master=root)
         self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=1)
         self.toolbar = NavigationToolbar2Tk(self.canvas, root)
         self.toolbar.update()
         self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
@@ -121,8 +121,10 @@ class Gui:
                                                           filetypes=(("all files", "*.*"), ("text files", "*.txt")))
 
     def on_value_change(self, event):
-        self.canvas.get_tk_widget().pack_forget()
-        self.toolbar.pack_forget()
+        if self.canvas is not None:
+            self.canvas.get_tk_widget().pack_forget()
+        if self.toolbar is not None:
+            self.toolbar.pack_forget()
         if self.current_algorithm.get() != self.algorithms[2]:
             self.time_quantum_label.pack_forget()
             self.time_quantum_textbox.pack_forget()
