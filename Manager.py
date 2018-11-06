@@ -26,6 +26,7 @@ class Manager:
     def loop(self):
         while len(self.process_manager.processes) is not 0 or len(self.scheduler.processes) is not 0:
             self.clock.notify()
+        self.scheduler.logger.write_log("results.txt")
         return self.scheduler.logger.plotting_data[0], self.scheduler.logger.plotting_data[1]
 
     def _create_scheduler(self, algorithm, context_switching_time, time_quantum=0):
