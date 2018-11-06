@@ -38,8 +38,21 @@ class Logger:
                 self.waiting_time[process.process_number] = clock.time - self.arrival[process.process_number]
             self.arrival[process.process_number] = 0
 
-    # def write_log(self, output_file):
-    #     sorted_waiting = dict(sorted(self.waiting_time.items()))
-    #     sorted_runtime = dict(sorted(self.running))
-    #     with open(output_file) as output:
+    def write_log(self, output_file):
+        sorted_waiting = dict(sorted(self.waiting_time.items()))
+        sorted_runtime = dict(sorted(self.running.items()))
+        turnaround_time = []
+        weighted_turnaround_time = []
+        with open(output_file, "w") as output:
+            for process in sorted_runtime.keys() & sorted_waiting.keys():
+                ta = sorted_waiting[process] + sorted_runtime[process]
+                wta = ta / sorted_runtime[process]
+                output.write("process: " + str(process) + "\tturnaround time:\t" +
+                             str(ta) + "\t weighted turnaround time:\t" + str(wta) + "\n")
+                turnaround_time.append(ta)
+                weighted_turnaround_time.append(wta)
+            output.write("scheduler average turnaround time:\t" + str(sum(turnaround_time) / len(turnaround_time)) +
+                         "\nscheduler average weighted turnaround time:\t" +
+                         str(sum(weighted_turnaround_time) / len(weighted_turnaround_time)))
+
 
