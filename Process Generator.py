@@ -7,11 +7,11 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
     except getopt.GetoptError:
-        print('Process Generator.py -i <inputfile> -o <outputfile>')
+        print('Process\ Generator.py -i <inputfile> -o <outputfile>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('Process Generator.py -i <inputfile> -o <outputfile>')
+            print('Process\ Generator.py -i <inputfile> -o <outputfile>')
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfile = arg

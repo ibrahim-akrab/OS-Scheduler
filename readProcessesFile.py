@@ -1,5 +1,5 @@
 
-def readProcessesFile(inputfile,arrival,burst,priority,number_of_processes):
+def readProcessesFile(inputfile,arrival,burst,priority):
    # arrival=[]
     #burst=[]
    # priority=[]

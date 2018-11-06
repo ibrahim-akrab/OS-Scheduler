@@ -9,7 +9,7 @@ def FCFS(): #suppose to take inputfile from the GUI
     priority = []
     number_of_processes = 0
     inputfile='output.txt' #just for now
-    number_of_processes = readProcessesFile(inputfile,arrival,burst,priority,number_of_processes)
+    number_of_processes = readProcessesFile(inputfile,arrival,burst,priority)
 
     #print(number_of_processes)
     #print(arrival)

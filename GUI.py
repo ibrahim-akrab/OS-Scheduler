@@ -111,7 +111,7 @@ class Gui:
             self.toolbar.pack_forget()
         self.canvas = FigureCanvasTkAgg(self.fig, master=root)
         self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=1)
+        self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.toolbar = NavigationToolbar2Tk(self.canvas, root)
         self.toolbar.update()
         self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
