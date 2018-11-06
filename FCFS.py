@@ -6,15 +6,16 @@ class FCFS(Scheduler):
     def process_arrived(self, process):
         # print(self.clock, "arrived", process)
         self.processes.append(process)
+        self.logger.arrived(process, self.clock, arriving=True)
         # run it if it is the first process
-        if len(self.processes) is 1:
+        if len(self.processes) is 1 and self.state is None:
             self.run()
 
     def notify(self):
         if self.state is SchedulerState.running:
             self.running_process.stop(self.clock.time)
             process = self.processes.pop(0)
-            process.stop(self.clock.time)
+            # process.stop(self.clock.time)
             self.logger.log_runtime(process, self.clock, starting=False)
             # print(self.clock, "finished running", process)
             self.state = SchedulerState.context_switching

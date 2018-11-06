@@ -7,7 +7,6 @@ import numpy as np
 
 class Gui:
     def __init__(self, master):
-        self.test = False
         self.master = master
         self.time_quantum_label = None
         self.time_quantum = None
@@ -95,7 +94,8 @@ class Gui:
             return
 
         # valid input
-        manager = Manager(self.input_file_name, float(self.context_switching), self.current_algorithm.get())
+        manager = Manager(self.input_file_name, float(self.context_switching),
+                          self.current_algorithm.get(), self.time_quantum)
         time, processes = manager.loop()
 
         if self.fig is not None:

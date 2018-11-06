@@ -37,7 +37,8 @@ class ProcessManager:
         self.scheduler = scheduler
 
     def notify(self):
-        self.scheduler.process_arrived(self.processes.pop(0))
+        while len(self.processes) is not 0 and self.processes[0].arrival_time <= self.clock.time:
+            self.scheduler.process_arrived(self.processes.pop(0))
         if len(self.processes) is not 0:
             self.clock.notify_process_manager(self.processes[0].arrival_time)
 
