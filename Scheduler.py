@@ -21,7 +21,7 @@ class Scheduler:
         for process in processes:
             # print(self.clock, "arrived", process)
             self.processes.append(process)
-            self.logger.arrived(processes, self.clock, arriving=True)
+            self.logger.arrived(process, self.clock, arriving=True)
 
     def attach_clock(self, clock):
         self.clock = clock

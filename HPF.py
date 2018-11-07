@@ -14,7 +14,7 @@ class HPF(Scheduler):
              # a7a = 0
         self.logger.arrived(processes, self.clock, arriving=True)
         # run it if it is the first process
-        if len(self.processes) is 1 and self.state is None:
+        if len(self.processes) == len(processes) and self.state is None:
             self.run()
 
     def notify(self):

@@ -6,7 +6,7 @@ class FCFS(Scheduler):
     def process_arrived(self, processes):
         super(FCFS, self).process_arrived(processes)
         # run it if it is the first process
-        if len(self.processes) is 1 and self.state is None:
+        if len(self.processes) == len(processes) and self.state is None:
             self.run()
 
     def notify(self):
