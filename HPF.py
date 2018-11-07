@@ -3,9 +3,8 @@ from operator import attrgetter
 
 class HPF(Scheduler):
 
-    def process_arrived(self, process):
-        print(self.clock, "arrived", process)
-        self.processes.append(process)
+    def process_arrived(self, processes):
+        super(HPF, self).process_arrived(processes)
         if len(self.processes) > 1:
             temp = self.processes[1:len(self.processes)]
             temp2 = [self.processes[0]]
@@ -13,7 +12,7 @@ class HPF(Scheduler):
             self.processes = temp2 + temp
          # if len(self.processes) > '3':
              # a7a = 0
-        self.logger.arrived(process, self.clock, arriving=True)
+        self.logger.arrived(processes, self.clock, arriving=True)
         # run it if it is the first process
         if len(self.processes) is 1 and self.state is None:
             self.run()

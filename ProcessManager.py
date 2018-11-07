@@ -29,7 +29,7 @@ class ProcessManager:
 
     def attach_clock(self, clock):
         self.clock = clock
-        self.clock.process_manager = self
+        self.clock.attach_process_manager(self)
         # set first notification time for the clock
         self.clock.notify_process_manager(self.processes[0].arrival_time)
 
@@ -37,8 +37,9 @@ class ProcessManager:
         self.scheduler = scheduler
 
     def notify(self):
-        while len(self.processes) is not 0 and self.processes[0].arrival_time <= self.clock.time:
-            self.scheduler.process_arrived(self.processes.pop(0))
+        ready_processes = [process for process in self.processes if process.arrival_time <= self.clock]
+        self.scheduler.process_arrived(ready_processes)
+        self.processes = self.processes[len(ready_processes):]
         if len(self.processes) is not 0:
             self.clock.notify_process_manager(self.processes[0].arrival_time)
 

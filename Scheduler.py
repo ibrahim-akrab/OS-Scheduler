@@ -17,18 +17,26 @@ class Scheduler:
         self.processes = []
         self.running_process = None
 
-    def process_arrived(self, process):
-        pass
+    def process_arrived(self, processes):
+        for process in processes:
+            # print(self.clock, "arrived", process)
+            self.processes.append(process)
+            self.logger.arrived(processes, self.clock, arriving=True)
 
     def attach_clock(self, clock):
         self.clock = clock
-        self.clock.scheduler = self
+        self.clock.attach_scheduler(self)
 
     def notify(self):
         pass
 
     def run(self):
-        pass
+        process = self.processes[0]
+        self.logger.log_runtime(process, self.clock, starting=True)
+        # print(self.clock, "started running", process)
+        self.state = SchedulerState.running
+        self.running_process = process
+        process.run(self.clock.time)
 
 
 class SchedulerState(Enum):

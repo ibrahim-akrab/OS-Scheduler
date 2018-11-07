@@ -11,10 +11,6 @@ class Clock:
     def __repr__(self):
         return repr((self.time, self.process_notification, self.scheduler_notification))
 
-    def increment_clock(self):
-        # self.clock += self.time_step
-        return self.time
-
     def attach_scheduler(self, scheduler):
         self.scheduler = scheduler
 
