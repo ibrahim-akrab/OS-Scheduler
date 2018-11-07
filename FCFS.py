@@ -12,10 +12,11 @@ class FCFS(Scheduler):
     def notify(self):
         if self.state is SchedulerState.running:
             self.running_process.stop(self.clock.time)
-            process = self.processes.pop(0)
+            self.processes.remove(self.running_process)
             # process.stop(self.clock.time)
-            self.logger.log_runtime(process, self.clock, starting=False)
-            # print(self.clock, "finished running", process)
+            self.logger.log_runtime(self.running_process, self.clock, starting=False)
+            # print(self.clock, "finished running", self.running_process)
+            self.running_process = None
             self.state = SchedulerState.context_switching
             # print(self.clock, "started context switching")
             self.clock.notify_scheduler(self.clock.time + self.context_switching)

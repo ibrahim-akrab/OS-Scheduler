@@ -4,6 +4,7 @@ from Process import Process
 from Clock import Clock
 from FCFS import FCFS
 from SRTN import SRTN
+from HPF import HPF
 
 
 class Manager:
@@ -32,7 +33,7 @@ class Manager:
     def _create_scheduler(self, algorithm, context_switching_time, time_quantum=0):
         # TODO: uncommenet for each algorithm implemented
         return {
-            # "HPF" : HPF(context_switching=context_switching_time),
+            "HPF" : HPF(context_switching=context_switching_time),
             "FCFS" : FCFS(context_switching=context_switching_time),
             # "RR" : RR(context_switching=context_switching_time, quantum=float(time_quantum)),
             "SRTN" : SRTN(context_switching=context_switching_time)
