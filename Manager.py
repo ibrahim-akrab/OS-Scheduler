@@ -5,13 +5,25 @@ from Clock import Clock
 from FCFS import FCFS
 from SRTN import SRTN
 from HPF import HPF
+from RR import RR
+
+
+def _create_scheduler(algorithm, context_switching_time, time_quantum):
+    if algorithm == "HPF":
+        return HPF(context_switching=context_switching_time)
+    elif algorithm == "FCFS":
+        return FCFS(context_switching=context_switching_time)
+    elif algorithm == "RR":
+        return RR(context_switching=context_switching_time, time_quantum=float(time_quantum))
+    else:
+        return SRTN(context_switching=context_switching_time)
 
 
 class Manager:
 
-    def __init__(self, input_file, context_switching_time, algorithm, time_quantum=0):
+    def __init__(self, input_file, context_switching_time, algorithm, time_quantum):
         # start scheduler
-        self.scheduler = self._create_scheduler(algorithm, context_switching_time, time_quantum)
+        self.scheduler = _create_scheduler(algorithm, context_switching_time, time_quantum)
         # start process manager
         self.process_manager = ProcessManager()
         # load it with processes from the output file
@@ -29,12 +41,3 @@ class Manager:
             self.clock.notify()
         self.scheduler.logger.write_log("results.txt")
         return self.scheduler.logger.plotting_data[0], self.scheduler.logger.plotting_data[1]
-
-    def _create_scheduler(self, algorithm, context_switching_time, time_quantum=0):
-        # TODO: uncommenet for each algorithm implemented
-        return {
-            "HPF" : HPF(context_switching=context_switching_time),
-            "FCFS" : FCFS(context_switching=context_switching_time),
-            # "RR" : RR(context_switching=context_switching_time, quantum=float(time_quantum)),
-            "SRTN" : SRTN(context_switching=context_switching_time)
-        }[algorithm]
