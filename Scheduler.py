@@ -8,7 +8,7 @@ from Logger import Logger
 
 class Scheduler:
 
-    def __init__(self, context_switching):
+    def __init__(self, context_switching, time_quantum=0):
         self.context_switching = context_switching
         self.state = None
         self.clock = None
@@ -16,6 +16,7 @@ class Scheduler:
         # the processes that are currently running or waiting in queue
         self.processes = []
         self.running_process = None
+        self.time_quantum = time_quantum
 
     def process_arrived(self, processes):
         for process in processes:
