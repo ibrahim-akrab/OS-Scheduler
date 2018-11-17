@@ -1,7 +1,4 @@
-from ProcessManager import  ProcessManager
-from Clock import Clock
-from operator import itemgetter, attrgetter
-from bisect import insort
+from operator import attrgetter
 from enum import Enum
 from Logger import Logger
 
@@ -39,13 +36,25 @@ class Scheduler:
             # print(self.clock, "finished running", self.running_process)
             self.running_process = None
             # print(self.clock, "started context switching")
-            self.clock.notify_scheduler(self.clock.time + self.context_switching)
+            if self.context_switching != 0:
+                self.clock.notify_scheduler(self.clock.time + self.context_switching)
+            else:
+                # act as if it just finished context switching for preparing data
+                self.state = SchedulerState.context_switching_prepare
+                # notify it to act upon that
+                self.notify()
         # else if it was saving process data doing context switching
         elif self.state is SchedulerState.context_switching_dump:
             # start context switching to get new process data
             self.state = SchedulerState.context_switching_prepare
             self.sort_processes()
-            self.clock.notify_scheduler(self.clock.time + self.context_switching)
+            if self.context_switching != 0:
+                self.clock.notify_scheduler(self.clock.time + self.context_switching)
+            else:
+                # act as if it just finished context switching for preparing data
+                self.state = SchedulerState.context_switching_prepare
+                # notify it to act upon that
+                self.notify()
         # else if it was done preparing data for the new process
         elif self.state is SchedulerState.context_switching_prepare:
             self.state = None
