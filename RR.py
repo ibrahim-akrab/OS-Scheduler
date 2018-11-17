@@ -11,12 +11,9 @@ class RR(Scheduler):
             if self.clock.time - self.running_process.started_running_time > self.time_quantum:
                 # stop the running process now
                 self.notify()
-            else:
-                # stop the running process when its time quantum finishes
-                if self.running_process.burst_time < self.time_quantum:
-                    self.clock.notify_scheduler(self.clock.time + self.running_process.burst_time)
-                else:
-                    self.clock.notify_scheduler(self.clock.time + self.time_quantum)
+            # stop the running process when its time quantum finishes
+            elif self.running_process.burst_time > self.time_quantum:
+                self.clock.notify_scheduler(self.running_process.started_running_time + self.time_quantum)
         # run it if it is the first process
         if len(self.processes) == len(processes) and self.state is None:
             # it's as if the scheduler just finished saving last process data and
