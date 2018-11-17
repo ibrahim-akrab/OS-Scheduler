@@ -22,7 +22,7 @@ class ProcessManager:
                 burst_time = process_parameters[2]
                 priority = process_parameters[3]
                 self._add_process(process_number, arrival_time, burst_time, priority)
-        self.processes.sort(key=attrgetter('arrival_time', 'process_number'))
+        self.processes.sort(key=attrgetter('arrival_time'))
 
     def _add_process(self, process_number, arrival_time, burst_time, priority):
         self.processes.append(Process(process_number, arrival_time, burst_time, priority))
