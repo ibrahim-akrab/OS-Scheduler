@@ -81,8 +81,11 @@ class Gui:
                 raise IOError("You have to choose an input file to operate on!")
             if len(self.context_switching) == 0:
                 raise ValueError("Context Switching time must be entered correctly!")
-            if self.current_algorithm.get() == self.algorithms[2] and len(self.time_quantum) == 0:
-                raise ValueError("Time Quantum must be entered correctly!")
+            if self.current_algorithm.get() == self.algorithms[2]:
+                if len(self.time_quantum) == 0:
+                    raise ValueError("Time Quantum must be entered correctly!")
+                if float(self.time_quantum) == 0:
+                    raise ValueError("Time Quantum can't be zero.")
             return True
         except Exception as error:
             messagebox.showerror("Error", repr(error))
@@ -90,10 +93,10 @@ class Gui:
         # pass
 
     def run(self):
+        # validate input
         if not self.validate_for_run():
             return
 
-        # valid input
         manager = Manager(self.input_file_name, float(self.context_switching),
                           self.current_algorithm.get(), self.time_quantum)
         time, processes = manager.loop()
@@ -128,7 +131,6 @@ class Gui:
         else:
             self.time_quantum_label.pack()
             self.time_quantum_textbox.pack()
-
 
 
 root = Tk()
