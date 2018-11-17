@@ -3,7 +3,6 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationTool
 from matplotlib.figure import Figure
 from Manager import Manager
 
-import numpy as np
 
 class Gui:
     def __init__(self, master):

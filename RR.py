@@ -5,6 +5,18 @@ class RR(Scheduler):
 
     def process_arrived(self, processes):
         super(RR, self).process_arrived(processes)
+        # check if it had only one process taking the whole cpu before new process arriving
+        if len(self.processes) - len(processes) == 1 and self.running_process is not None:
+            # check if it is past its original time quantum (it's taking overtime)
+            if self.clock.time - self.running_process.started_running_time > self.time_quantum:
+                # stop the running process now
+                self.notify()
+            else:
+                # stop the running process when its time quantum finishes
+                if self.running_process.burst_time < self.time_quantum:
+                    self.clock.notify_scheduler(self.clock.time + self.running_process.burst_time)
+                else:
+                    self.clock.notify_scheduler(self.clock.time + self.time_quantum)
         # run it if it is the first process
         if len(self.processes) == len(processes) and self.state is None:
             # it's as if the scheduler just finished saving last process data and
@@ -28,7 +40,10 @@ class RR(Scheduler):
 
     def run(self):
         super(RR, self).run()
-        if self.running_process.burst_time < self.time_quantum:
+        if len(self.processes) == 1:
+            # run the process until some other process arrives
+            self.clock.notify_scheduler(self.clock.time + self.running_process.burst_time)
+        elif self.running_process.burst_time < self.time_quantum:
             self.clock.notify_scheduler(self.clock.time + self.running_process.burst_time)
         else:
             self.clock.notify_scheduler(self.clock.time + self.time_quantum)
