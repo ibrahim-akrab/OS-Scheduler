@@ -1,12 +1,11 @@
 class Clock:
 
     def __init__(self):
-        self.time = 0
-        # self.time_step = 0.1
+        self.time = -1     # to handle the case when a process arrives at time 0
         self.scheduler = None
         self.process_manager = None
-        self.process_notification = 0
-        self.scheduler_notification = 0
+        self.process_notification = -1
+        self.scheduler_notification = -1
 
     def __repr__(self):
         return repr((self.time, self.process_notification, self.scheduler_notification))
