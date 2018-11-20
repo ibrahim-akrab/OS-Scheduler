@@ -15,14 +15,10 @@ class Process:
 
     def stop(self, time):
         runtime = time - self.started_running_time
-        self.burst_time = 0 if abs(runtime - self.burst_time) < 0.00000000000001 else self.burst_time - runtime
+        self.burst_time = 0 if abs(runtime - self.burst_time) < 0.0000000000001 else self.burst_time - runtime
 
     def remaining_time(self, time):
         return self.burst_time - (time - self.started_running_time)
-
-
-    def get_remaining_time(self):
-        return self.burst_time
 
     def get_arrival_time(self):
         return self.arrival_time
