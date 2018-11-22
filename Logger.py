@@ -47,7 +47,8 @@ class Logger:
             for process in sorted_runtime.keys() & sorted_waiting.keys():
                 ta = sorted_waiting[process] + sorted_runtime[process]
                 wta = ta / sorted_runtime[process]
-                output.write("process: " + str(process) + "\tturnaround time:\t" +
+                output.write("process: " + str(process) + "\twaiting time:\t" +
+                str(sorted_waiting[process]) + "\tturnaround time:\t" +
                              str(ta) + "\t weighted turnaround time:\t" + str(wta) + "\n")
                 turnaround_time.append(ta)
                 weighted_turnaround_time.append(wta)
